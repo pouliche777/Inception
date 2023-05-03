@@ -1,10 +1,10 @@
-FROM alpine:latest
+FROM nginx
 
-RUN apk add --no-cache nginx
+ RUN apk add --no-cache nginx
 
-COPY nginx.conf /etc/nginx/nginx.conf
-COPY sites-available /etc/nginx/sites-available
-COPY sites-enabled /etc/nginx/sites-enabled
+ COPY nginx.conf /etc/nginx/nginx.conf
+ COPY sites-available /etc/nginx/sites-available
+ COPY sites-enabled /etc/nginx/sites-enabled
 
 EXPOSE 80
 EXPOSE 443
