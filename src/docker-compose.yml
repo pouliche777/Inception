@@ -1,27 +1,29 @@
 version: '3'
 services:
-  nginx:
-    container_name: nginx
-    build:
-      context: .
-    ports:
-      - "80:80"
-      - "443:443"
+#   nginx:
+#     container_name: nginx
+#     build:
+#       context: ./nginx
+#     ports:
+#       - "80:80"
+#       - "443:443"
+#     networks:
+#       -inception
 
 
-      
-  wordpress:
-    container_name: wordpress
-    build:
-      context: .
-      ports:
-      - "9000:9000"
+
+  # wordpress:
+  #   container_name: wordpress
+  #   build:
+  #     context:
+  #     ports:
+  #     - "9000:9000"
  
 
-  mariadb:
-    container_name: mariadb
+  mariadb1:
+    container_name: mariadb1
     build: 
-      context: .
+      context: ./mariadb1
     ports:
       - "3306:3306"
     environment:
