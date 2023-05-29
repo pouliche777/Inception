@@ -6,7 +6,7 @@ FROM alpine:3.14
  COPY sites-available /etc/nginx/sites-available
  COPY sites-enabled /etc/nginx/sites-enabled
 
-EXPOSE 80
-EXPOSE 443
+# EXPOSE 80
+# EXPOSE 443
 
 CMD ["nginx", "-g", "daemon off;"]

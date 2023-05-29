@@ -1,35 +1,67 @@
-version: '3'
+version: '3.7'
+
+#services
+
 services:
-#   nginx:
-#     container_name: nginx
-#     build:
-#       context: ./nginx
-#     ports:
-#       - "80:80"
-#       - "443:443"
-#     networks:
-#       -inception
-
-
-
-  # wordpress:
-  #   container_name: wordpress
-  #   build:
-  #     context:
-  #     ports:
-  #     - "9000:9000"
- 
-
-  mariadb1:
-    container_name: mariadb1
-    build: 
-      context: ./mariadb1
+  nginx:
+    container_name: nginx
+    build:
+      context: ./nginx
+    volumes:
+      - volume_wp:/var/www/html
+    env_file:
+      - .env
     ports:
-      - "3306:3306"
-    environment:
-      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
-      MYSQL_DATABASE: ${DB_NAME}
-      MYSQL_USER: ${DB_USER}
-      MYSQL_PASSWORD: ${DB_PASSWORD}
+      - "80:80"
+      - "443:443"
+    networks:
+      -inception
+    depends_on:
+      - wordpress
+
+  wordpress:
+    container_name: wordpress
+    build:
+      context:
+    expose:
+        - "9000"
+    env_file:
+        - .env
+    depends_on:
+        - mariadb
+ 
+  mariadb:
+    container_name: mariadb
+    build: 
+      context: ./mariadb
+    expose:
+      - "3306"
+    env_file:
+      - .env
+    restart: always
+
+#volumes
+
+  volumes:
+    volume_wp:
+      name: wordpress_volume
+      driver: local
+      driver_opts:
+        type: none
+        o: bind
+        device: /home/slord/data/html
+
+    volume_maria:
+      name: mariadb_volume
+      driver: local
+      driver_opts:
+        type: none
+        o: bind
+        device: /home/slord/data/mysql
   
-  
+#network
+
+    networks:
+      inception:
+        name: inception
+        driver: bridge
