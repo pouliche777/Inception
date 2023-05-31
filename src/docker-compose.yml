@@ -1,67 +1,52 @@
-version: '3.7'
-
-#services
+version: "3.5"
 
 services:
-  nginx:
-    container_name: nginx
+  mariadb:
+    container_name: mariadb
     build:
-      context: ./nginx
-    volumes:
-      - volume_wp:/var/www/html
+      context: ./requirements/mariadb
     env_file:
       - .env
-    ports:
-      - "80:80"
-      - "443:443"
+    volumes:
+      - db:/var/lib/mysql
     networks:
-      -inception
-    depends_on:
-      - wordpress
+      - inception
+    restart: always
 
   wordpress:
     container_name: wordpress
-    build:
-      context:
-    expose:
-        - "9000"
-    env_file:
-        - .env
-    depends_on:
-        - mariadb
- 
-  mariadb:
-    container_name: mariadb
     build: 
-      context: ./mariadb
-    expose:
-      - "3306"
+      context: ./requirements/wordpress
     env_file:
       - .env
+    depends_on:
+      - mariadb
+    volumes:
+      - wp:/var/www/html
+    networks:
+      - inception
     restart: always
 
-#volumes
-
-  volumes:
-    volume_wp:
-      name: wordpress_volume
-      driver: local
-      driver_opts:
-        type: none
-        o: bind
-        device: /home/slord/data/html
-
-    volume_maria:
-      name: mariadb_volume
-      driver: local
-      driver_opts:
-        type: none
-        o: bind
-        device: /home/slord/data/mysql
-  
-#network
-
+  nginx:
+    container_name: nginx
+    build:
+      context: ./requirements/nginx
+    ports:
+      - "443:443"
+    depends_on:
+      - wordpress
+    volumes:
+      - wp:/var/www/html
     networks:
-      inception:
-        name: inception
-        driver: bridge
+      - inception
+    restart: always
+
+networks:
+  inception:
+    name: inception
+    driver: bridge
+
+volumes:
+  wp:
+  db:
+  
