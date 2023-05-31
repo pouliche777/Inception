@@ -50,7 +50,7 @@ networks:
 #   wp:
 #   db:
 
-  volumes:
+volumes:
   wp:
     driver: local
     driver_opts:
