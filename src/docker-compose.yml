@@ -46,7 +46,21 @@ networks:
     name: inception
     driver: bridge
 
-volumes:
+# volumes:
+#   wp:
+#   db:
+
+  volumes:
   wp:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: /home/slord/data/wp
   db:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: /home/slord/data/db
   
