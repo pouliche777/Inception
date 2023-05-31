@@ -13,3 +13,10 @@ FLUSH PRIVILEGES;
 EOF
 
 exec "$@"
+
+#comandes pour naviguer dans ma base de donnees via le terminal
+# se connecter :  mysql -u "USERNAME" -p
+# choisir la database : USE "DATABASE NAME";
+# SHOW TABLES;
+# SELECT * FORM "table name";  Je peux remplacer le * par la colonne precise que je veux afficher, par exemple colunm1.
+#il est aussi possible de modfifer le contenu de la base de donees : par exemple, UPDATE wp_comments SET comment_content = 'test terminal';
