@@ -17,4 +17,8 @@ up: build
 down:
 	docker-compose -f src/docker-compose.yml down
 	@rm -f $(BUILD_FLAG)
+clean:
+	docker-compose -f src/docker-compose.yml down --volumes --remove-orphans
+	docker-compose -f src/docker-compose.yml rm -sfv
+	@rm -f $(BUILD_FLAG)
 
